@@ -16,9 +16,6 @@ class PaymentController extends Controller
         $this->paymentService = $paymentService;
     }
 
-    /**
-     * Create a new payment
-     */
     public function createPayment(Request $request)
     {
         $request->validate([
@@ -56,9 +53,6 @@ class PaymentController extends Controller
         }
     }
 
-    /**
-     * Get payment details
-     */
     public function getPayment(Request $request, string $externalId)
     {
         $payment = $this->paymentService->getPayment($externalId);
@@ -78,12 +72,9 @@ class PaymentController extends Controller
         ]);
     }
 
-    /**
-     * Process webhook from payment provider
-     */
     public function processWebhook(Request $request, string $provider)
     {
-        // Validate provider
+        
         if (!in_array(strtolower($provider), ['providera', 'providerb'])) {
             return response()->json([
                 'success' => false,
@@ -94,7 +85,7 @@ class PaymentController extends Controller
         try {
             $webhookData = $request->all();
             
-            // Log webhook for debugging
+            
             Log::info('Webhook received', [
                 'provider' => $provider,
                 'data' => $webhookData
@@ -129,9 +120,6 @@ class PaymentController extends Controller
         }
     }
 
-    /**
-     * List all payments (for testing purposes)
-     */
     public function listPayments(Request $request)
     {
         $payments = \App\Models\Payment::orderBy('created_at', 'desc')
