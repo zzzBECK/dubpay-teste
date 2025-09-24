@@ -1,82 +1,16 @@
-version: "3.8"
-
 services:
   postgres:
-    image: postgres:15-alpine
-    container_name: dubpay_postgres
-    restart: unless-stopped
+    image: postgres:15
+    container_name: descobre-aqui-postgre-container
+    restart: no
     environment:
-      POSTGRES_DB: dubpay
-      POSTGRES_USER: dubpay_user
-      POSTGRES_PASSWORD: dubpay_password
-      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: descobre-aqui
     ports:
-      - "5432:5432"
+      - '5460:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker/postgres/init:/docker-entrypoint-initdb.d
-    networks:
-      - dubpay_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U dubpay_user -d dubpay"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  redis:
-    image: redis:7-alpine
-    container_name: dubpay_redis
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - dubpay_network
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: dubpay_app
-    restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/var/www/html
-      - /var/www/html/vendor
-      - /var/www/html/node_modules
-    environment:
-      - APP_ENV=local
-      - APP_DEBUG=true
-      - DB_CONNECTION=pgsql
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_DATABASE=dubpay
-      - DB_USERNAME=dubpay_user
-      - DB_PASSWORD=dubpay_password
-      - CACHE_DRIVER=redis
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    networks:
-      - dubpay_network
 
 volumes:
   postgres_data:
-    driver: local
-  redis_data:
-    driver: local
-
-networks:
-  dubpay_network:
-    driver: bridge
