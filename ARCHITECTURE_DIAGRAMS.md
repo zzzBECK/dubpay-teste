@@ -87,7 +87,7 @@ Cliente                Laravel Sanctum              Database
 │  Development    │    │     Testing     │    │   Production    │
 │                 │    │                 │    │    (Future)     │
 ├─────────────────┤    ├─────────────────┤    ├─────────────────┤
-│ • SQLite        │    │ • SQLite        │    │ • PostgreSQL    │
+│ • PostgreSQL    │    │ • PostgreSQL    │    │ • PostgreSQL    │
 │ • PHP 8.2+      │    │ • Pest Tests    │    │ • Docker        │
 │ • Laravel Serve │    │ • RefreshDB     │    │ • Load Balancer │
 │ • Local files   │    │ • Mock Data     │    │ • Monitoring    │
@@ -141,14 +141,13 @@ Cliente                Laravel Sanctum              Database
 │     php artisan key:generate                                    │
 │                                                                 │
 │  4. Database (opções)                                           │
-│     • SQLite (padrão): touch database/database.sqlite          │
-│     • PostgreSQL: docker compose up -d                         │
+│     • PostgreSQL: docker compose up -d                          │
 │                                                                 │
 │  5. Migrations                                                  │
 │     php artisan migrate                                         │
 │                                                                 │
 │  6. Servidor                                                    │
-│     php artisan serve (porta 8000)                             │
+│     php artisan serve (porta 8000)                              │
 │                                                                 │
 │  7. Testes                                                      │
 │     php artisan test                                            │
@@ -172,10 +171,3 @@ Cliente                Laravel Sanctum              Database
 │             │    │ • PaymentTest│    │             │
 └─────────────┘    └─────────────┘    └─────────────┘
 ```
-
-**Validação Implementada:**
-
--   Testes automatizados (Pest)
--   README com exemplos de uso
--   Script test_api.sh para validação completa
--   Documentação de endpoints

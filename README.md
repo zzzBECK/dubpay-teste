@@ -14,19 +14,13 @@ composer install
 cp .env.example .env
 php artisan key:generate
 
-# 3. Banco de dados (SQLite - padrão)
-touch database/database.sqlite
+# 3. Banco de dados (PostgreSQL com Docker)
+docker-compose up -d
+# Configurar .env com PostgreSQL e executar php artisan migrate
 php artisan migrate
 
 # 4. Iniciar servidor
 php artisan serve
-```
-
-**Opção PostgreSQL (com Docker):**
-
-```bash
-docker-compose up -d
-# Configurar .env com PostgreSQL e executar php artisan migrate
 ```
 
 ## 📡 Endpoints
